@@ -4,6 +4,6 @@ namespace Citd
 {
     public class MessagingHub : Hub 
     {
-
+        
     }
 }

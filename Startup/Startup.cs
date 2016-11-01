@@ -17,10 +17,13 @@ namespace Citd
                     .AllowCredentials());
             });
 
+            services.AddSignalR();
+
             services.AddMvc().AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
+
         }
 
         public void Configure(IApplicationBuilder app)
