@@ -9,7 +9,7 @@ namespace Citd
             var host = new WebHostBuilder()
             .UseKestrel()
             .UseIISIntegration()
-            .UseStartup<Citd.Bootstrap>()
+            .UseStartup<Citd.Startup>()
             .Build();
 
             host.Run(); 

@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Citd
 {
-    public class Bootstrap 
+    public class Startup 
     {
         public void ConfigureServices(IServiceCollection services)
         {
@@ -27,6 +27,7 @@ namespace Citd
         {
             app.UseCors("CorsPolicy");
             app.UseMvc();
+            app.UseSignalR(); 
         }
     }
 }
