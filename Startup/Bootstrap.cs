@@ -8,17 +8,24 @@ namespace Citd
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(options =>
-
+            services.AddCors(options =>
             {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
 
+            services.AddMvc().AddJsonOptions(options =>
+            {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
             });
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }
