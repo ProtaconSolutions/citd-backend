@@ -1,36 +1,31 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 
 namespace Citd
 {
-    public class Startup 
+    public class Startup
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
-
             services.AddSignalR();
-
-            services.AddMvc().AddJsonOptions(options =>
-            {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-            });
-
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.UseCors("CorsPolicy");
-            app.UseMvc();
-            app.UseSignalR(); 
+            loggerFactory.AddConsole(LogLevel.Debug);
+            
+            // app.Use(async (context, next) =>
+            // {
+            //     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            //     await next.Invoke();
+            // });
+
+            app.UseWebSockets();
+            app.UseSignalR();
         }
     }
 }
