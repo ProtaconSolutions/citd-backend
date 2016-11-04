@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Citd.Roslyn
 {
@@ -20,18 +21,16 @@ namespace Citd.Roslyn
 
         public TestResult Run(Func<object, object[], object> invoke)
         {
-
             var result = Convert.ChangeType(invoke(null, _test.Input), _type);
             var expected = Convert.ChangeType(_test.Expected, _type);
 
-            if (result != expected)
-            {
-                return new TestResult(
-                    TestResultType.Failure,
-                    $"Test failed with input {_test.Input}, expected result {expected} but was {result}");
-            }
+            if (result.ToString() == expected.ToString()) return new TestResult(TestResultType.Ok, "");
 
-            return new TestResult(TestResultType.Ok, "");
+            var input = string.Join(",",_test.Input.Select(x => x.ToString()));
+
+            return new TestResult(
+                TestResultType.TestFailure,
+                $"Test failed with input {input}, expected result {expected} but was {result}");
         }
 
         public Test WithInput(params object[] args)

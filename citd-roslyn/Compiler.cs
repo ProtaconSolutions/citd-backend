@@ -18,8 +18,7 @@ namespace Citd.Roslyn
                     .Create(Path.GetRandomFileName())
                     .WithOptions(new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary))
                     .AddReferences(
-                        MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location),
-                        MetadataReference.CreateFromFile(typeof(Enumerable).AssemblyQualifiedName)
+                        MetadataReference.CreateFromFile(typeof(object).GetTypeInfo().Assembly.Location)
                     )
                     .AddSyntaxTrees(CSharpSyntaxTree.ParseText(code))
                     .Emit(stream);

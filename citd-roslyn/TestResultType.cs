@@ -2,7 +2,9 @@
 {
     public enum TestResultType
     {
-        Failure,
-        Ok
+        Ok,
+        TestFailure,
+        RandomFailure,
+        BuildFailure
     }
 }
