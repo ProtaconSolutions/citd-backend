@@ -20,11 +20,10 @@ namespace Citd.Roslyn
 
         public TestResult Run(Func<object, object[], object> invoke)
         {
-
             var result = Convert.ChangeType(invoke(null, _test.Input), _type);
             var expected = Convert.ChangeType(_test.Expected, _type);
 
-            if (result != expected)
+            if (result.ToString() != expected.ToString())
             {
                 return new TestResult(
                     TestResultType.Failure,
