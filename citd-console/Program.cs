@@ -13,24 +13,26 @@ namespace citd_console
             const string code = @"
 using System;
 
-public static class Greeter
+public static class Calc
 {
-    public static int Greet(int i) 
+    public static int Summer(int x, int y) 
     {
-        return 2;
+        return x + 1;
     }
 }
 ";
-
             var fixture = new TestFixture
             {
-                TypeName = "Greeter",
-                MethodName = "Greet",
+                TypeName = "Calc",
+                MethodName = "Summer",
                 Tests = new List<Test>
                 {
                     Test.OfResultType(typeof(int))
-                        .WithInput(1)
-                        .WithExpected(1)
+                        .WithInput(1,1)
+                        .WithExpected(2),
+                    Test.OfResultType(typeof(int))
+                        .WithInput(1,3)
+                        .WithExpected(4)
                 }
             };
 
