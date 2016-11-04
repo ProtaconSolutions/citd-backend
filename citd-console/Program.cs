@@ -10,17 +10,17 @@ namespace citd_console
     {
         public static void Main(string[] args)
         {
-            var assembly = Compiler.Compile(@"
+            const string code = @"
 using System;
 
 public static class Greeter
 {
-    public static string Greet(int i) 
+    public static int Greet(int i) 
     {
-        return i;
+        return 2;
     }
 }
-");
+";
 
             var fixture = new TestFixture
             {
@@ -35,10 +35,10 @@ public static class Greeter
             };
 
             var runner = new TestRunner();
-            var result = runner.TestAll(assembly, fixture);
+            var result = runner.TestAll(code, fixture);
 
             Console.WriteLine(result.ResultType);
-            Console.WriteLine(result.Failure.Message ?? "");
+            Console.WriteLine(result.Message);
 
             Console.ReadKey();
 

@@ -26,7 +26,7 @@ namespace Citd.Roslyn
             if (result.ToString() != expected.ToString())
             {
                 return new TestResult(
-                    TestResultType.Failure,
+                    TestResultType.TestFailure,
                     $"Test failed with input {_test.Input}, expected result {expected} but was {result}");
             }
 

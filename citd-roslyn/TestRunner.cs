@@ -1,37 +1,69 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Citd.Roslyn
 {
     public class TestRunner
     {
-        public TotalTestsResult TestAll(Assembly assembly, TestFixture fixture)
+        public TotalTestsResult TestAll(string code, TestFixture fixture)
         {
             var passedTests = 0;
 
-            foreach (var test in fixture.Tests)
+            try
             {
-                var result = test.Run(assembly.GetType(fixture.TypeName).GetMethod(fixture.MethodName).Invoke);
+                Assembly assembly;
 
-                if (result.Type == TestResultType.Failure)
+                try
+                {
+                    assembly = Compiler.Compile(code);
+                }
+                catch (Exception ex)
                 {
                     return new TotalTestsResult
                     {
-                        ResultType = TestResultType.Failure,
+                        ResultType = TestResultType.BuildFailure,
                         NumberOfTests = fixture.Tests.Count,
                         PassedTests = passedTests,
-                        Failure = result
+                        Message = ex.ToString()
                     };
                 }
 
-                passedTests++;
+                foreach (var test in fixture.Tests)
+                {
+                    var result = test.Run(assembly.GetType(fixture.TypeName).GetMethod(fixture.MethodName).Invoke);
+
+                    if (result.Type == TestResultType.TestFailure)
+                    {
+                        return new TotalTestsResult
+                        {
+                            ResultType = TestResultType.TestFailure,
+                            NumberOfTests = fixture.Tests.Count,
+                            PassedTests = passedTests,
+                            Message = result.Message
+                        };
+                    }
+
+                    passedTests++;
+                }
+
+                return new TotalTestsResult
+                {
+                    ResultType = TestResultType.Ok,
+                    NumberOfTests = fixture.Tests.Count,
+                    PassedTests = fixture.Tests.Count
+                };
+            }
+            catch (Exception ex)
+            {
+                return new TotalTestsResult
+                {
+                    ResultType = TestResultType.RandomFailure,
+                    NumberOfTests = fixture.Tests.Count,
+                    PassedTests = passedTests,
+                    Message = ex.ToString()
+                };
             }
 
-            return new TotalTestsResult
-            {
-                ResultType = TestResultType.Ok,
-                NumberOfTests = fixture.Tests.Count,
-                PassedTests = fixture.Tests.Count
-            };
         }
     }
 }
