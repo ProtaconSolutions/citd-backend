@@ -5,7 +5,6 @@
     "emitEntryPoint": true
   },
   "dependencies": {
-    "citd-roslyn": "1.0.0-*",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0-*",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0-*",
     "Microsoft.AspNetCore.SignalR.Server": "0.2.0-*",
@@ -14,8 +13,8 @@
     "Microsoft.Extensions.Logging.Console": "1.1.0-*",
     "System.Reactive": "3.0.0",
     "Microsoft.CodeAnalysis.CSharp": "1.3.2",
-    "NETStandard.Library": "1.6.1-preview1-24530-04",
-    "System.Runtime.Loader": "4.3.0-preview1-24530-04"
+    "NETStandard.Library": "1.6.1",
+    "System.Runtime.Loader": "4.3.0"
   },
   "frameworks": {
     "netcoreapp1.1": {

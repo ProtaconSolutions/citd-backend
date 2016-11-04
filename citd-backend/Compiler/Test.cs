@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Citd.Roslyn
+namespace Compiler
 {
     public class Test
     {

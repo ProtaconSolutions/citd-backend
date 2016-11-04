@@ -1,4 +1,4 @@
-﻿namespace Citd.Roslyn
+﻿namespace Compiler
 {
     public class TotalTestsResult
     {

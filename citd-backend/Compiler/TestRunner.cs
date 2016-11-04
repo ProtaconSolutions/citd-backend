@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Citd.Roslyn
+namespace Compiler
 {
     public class TestRunner
     {

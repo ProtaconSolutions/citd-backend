@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Citd.Roslyn;
+using Compiler;
 
-namespace Citd.Game
+namespace Game
 {
     public class Game
     {

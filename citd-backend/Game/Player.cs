@@ -1,4 +1,4 @@
-﻿namespace Citd.Game
+namespace Game
 {
     public class Player
     {
