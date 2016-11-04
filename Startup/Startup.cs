@@ -15,7 +15,7 @@ public class Startup
         services.AddSingleton<CompilerService, CompilerService>();
         services.AddSingleton<TimerService, TimerService>();
         services.AddSingleton<MessagingOutAdapter, MessagingOutAdapter>();
-        
+
         services.AddSignalR();
 
         services.BuildServiceProvider()
