@@ -2,6 +2,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 
+public interface IMessaging 
+{
+    void Publish(ChannelEvent channelEvent);
+}
+
 [HubName("messaging")]
 public class MessagingHub : Hub
 {
@@ -44,10 +49,8 @@ public class MessagingHub : Hub
 
     public void Publish(ChannelEvent channelEvent)
     {
-        Clients.All.OnEvent(channelEvent.ChannelName, channelEvent);
-        //Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
+        Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
     }
-
 
     public override Task OnConnected()
     {

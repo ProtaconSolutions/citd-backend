@@ -17,7 +17,6 @@ public class ChannelEvent
         }
     }
     private object _data;
-
     public string Json { get; private set; }
 
     public ChannelEvent()
