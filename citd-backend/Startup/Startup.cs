@@ -28,6 +28,7 @@ public class Startup
         app.UseSignalR();
 
         const int countdown = 60;
+
         Observable.Interval(TimeSpan.FromMilliseconds(1000))
             .Subscribe(x =>
             {
@@ -39,6 +40,7 @@ public class Startup
                     ChannelName = "time",
                     Data = new
                     {
+                        Interval = countdown,
                         TimeLeft = timeleft
                     }
                 });
