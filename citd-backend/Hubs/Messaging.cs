@@ -6,6 +6,5 @@ namespace Citd
     [HubName("messaging")]
     public class MessagingHub : Hub 
     {
-
     }
 }

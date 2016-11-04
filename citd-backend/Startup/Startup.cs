@@ -20,7 +20,8 @@ namespace Citd
             
             app.Use(async (context, next) =>
             {
-                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                 context.Response.Headers.Add("Access-Control-Allow-Credentials", "true");
+                 context.Response.Headers.Add("Access-Control-Allow-Origin", "http://localhost:4200");
                  await next.Invoke();
             });
 
