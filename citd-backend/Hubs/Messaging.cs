@@ -2,95 +2,84 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
 
-namespace Citd
+[HubName("messaging")]
+public class MessagingHub : Hub
 {
-    [HubName("messaging")]
-    public class MessagingHub : Hub
+    public async Task Subscribe(string channel)
     {
-        public async Task Subscribe(string channel)
+        await Groups.Add(Context.ConnectionId, channel);
+
+        var ev = new ChannelEvent
         {
-            await Groups.Add(Context.ConnectionId, channel);
-
-            var ev = new ChannelEvent
+            ChannelName = Constants.AdminChannel,
+            Name = "user.subscribed",
+            Data = new
             {
-                ChannelName = Constants.AdminChannel,
-                Name = "user.subscribed",
-                Data = new
-                {
-                    Context.ConnectionId,
-                    ChannelName = channel
-                }
-            };
-
-            await Publish(ev);
-        }
-
-        public async Task Unsubscribe(string channel)
-        {
-            await Groups.Remove(Context.ConnectionId, channel);
-
-            var ev = new ChannelEvent
-            {
-                ChannelName = Constants.AdminChannel,
-                Name = "user.unsubscribed",
-                Data = new
-                {
-                    Context.ConnectionId,
-                    ChannelName = channel
-                }
-            };
-
-            await Publish(ev);
-        }
-
-
-        public Task Publish(ChannelEvent channelEvent)
-        {
-            Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
-
-            if (channelEvent.ChannelName != Constants.AdminChannel)
-            {
-                // Push this out on the admin channel
-                //
-                Clients.Group(Constants.AdminChannel).OnEvent(Constants.AdminChannel, channelEvent);
+                Context.ConnectionId,
+                ChannelName = channel
             }
+        };
 
-            return Task.FromResult(0);
-        }
+        Publish(ev);
+    }
 
+    public async Task Unsubscribe(string channel)
+    {
+        await Groups.Remove(Context.ConnectionId, channel);
 
-        public override Task OnConnected()
+        var ev = new ChannelEvent
         {
-            var ev = new ChannelEvent
+            ChannelName = Constants.AdminChannel,
+            Name = "user.unsubscribed",
+            Data = new
             {
-                ChannelName = Constants.AdminChannel,
-                Name = "user.connected",
-                Data = new
-                {
-                    Context.ConnectionId,
-                }
-            };
+                Context.ConnectionId,
+                ChannelName = channel
+            }
+        };
 
-            Publish(ev);
+        Publish(ev);
+    }
 
-            return base.OnConnected();
-        }
 
-        public override Task OnDisconnected(bool stopCalled)
+    public void Publish(ChannelEvent channelEvent)
+    {
+        Clients.All.OnEvent(channelEvent.ChannelName, channelEvent);
+        //Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
+    }
+
+
+    public override Task OnConnected()
+    {
+        var ev = new ChannelEvent
         {
-            var ev = new ChannelEvent
+            ChannelName = Constants.AdminChannel,
+            Name = "user.connected",
+            Data = new
             {
-                ChannelName = Constants.AdminChannel,
-                Name = "user.disconnected",
-                Data = new
-                {
-                    Context.ConnectionId,
-                }
-            };
+                Context.ConnectionId,
+            }
+        };
 
-            Publish(ev);
+        Publish(ev);
 
-            return base.OnDisconnected(stopCalled);
-        }
+        return base.OnConnected();
+    }
+
+    public override Task OnDisconnected(bool stopCalled)
+    {
+        var ev = new ChannelEvent
+        {
+            ChannelName = Constants.AdminChannel,
+            Name = "user.disconnected",
+            Data = new
+            {
+                Context.ConnectionId,
+            }
+        };
+
+        Publish(ev);
+
+        return base.OnDisconnected(stopCalled);
     }
 }

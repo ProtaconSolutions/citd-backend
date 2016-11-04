@@ -1,6 +1,4 @@
-namespace Citd 
+public interface  IMessagingClient 
 {
-    public interface  IMessagingClient {
-        void Message<T>(T message);
-    }
+    void Message<T>(T message);
 }
