@@ -10,7 +10,7 @@ namespace Citd.Roslyn
 {
     public class Compiler
     {
-        public Assembly Compile(string code)
+        public static Assembly Compile(string code)
         {
             using (var stream = new MemoryStream())
             {
