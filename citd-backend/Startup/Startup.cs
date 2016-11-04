@@ -18,11 +18,11 @@ namespace Citd
         {
             loggerFactory.AddConsole(LogLevel.Debug);
             
-            // app.Use(async (context, next) =>
-            // {
-            //     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-            //     await next.Invoke();
-            // });
+            app.Use(async (context, next) =>
+            {
+                 context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                 await next.Invoke();
+            });
 
             app.UseWebSockets();
             app.UseSignalR();
