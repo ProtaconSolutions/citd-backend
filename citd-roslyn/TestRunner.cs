@@ -5,7 +5,7 @@ namespace Citd.Roslyn
 {
     public class TestRunner
     {
-        public TotalTestsResult TestAll(string code, TestFixture fixture)
+        public static TotalTestsResult Run(string code, TestFixture fixture)
         {
             var passedTests = 0;
 

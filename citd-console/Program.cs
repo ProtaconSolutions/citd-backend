@@ -36,8 +36,8 @@ public static class Calc
                 }
             };
 
-            var runner = new TestRunner();
-            var result = runner.TestAll(code, fixture);
+
+            var result = TestRunner.Run(code, fixture);
 
             Console.WriteLine(result.ResultType);
             Console.WriteLine(result.Message);
