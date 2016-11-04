@@ -1,15 +1,21 @@
+using System;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Hubs;
-
-public interface IMessaging 
-{
-    void Publish(ChannelEvent channelEvent);
-}
+using Rx;
 
 [HubName("messaging")]
 public class MessagingHub : Hub
 {
+    private Rx.IMessagePublisher _messages;
+
+    public MessagingHub(Rx.IMessagePublisher messages) 
+    {
+        _messages = messages;
+    }
+
     public async Task Subscribe(string channel)
     {
         await Groups.Add(Context.ConnectionId, channel);
@@ -49,7 +55,8 @@ public class MessagingHub : Hub
 
     public void Publish(ChannelEvent channelEvent)
     {
-        Clients.Group(channelEvent.ChannelName).OnEvent(channelEvent.ChannelName, channelEvent);
+        _messages.Publish<RequestMessage>(
+            new RequestMessage(channelEvent.ChannelName, Context.ConnectionId, channelEvent.Data));
     }
 
     public override Task OnConnected()

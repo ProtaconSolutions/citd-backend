@@ -7,6 +7,11 @@ namespace Compiler
     {
         public static TotalTestsResult Run(string code, TestFixture fixture)
         {
+            if(code == null) 
+            {
+                throw new ArgumentNullException(nameof(code));    
+            }
+
             var passedTests = 0;
 
             try
