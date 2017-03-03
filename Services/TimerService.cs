@@ -4,26 +4,26 @@ using System.Reactive.Linq;
 using Hubs;
 using Rx;
 
-namespace Services 
+namespace Services
 {
-    public class TimerService 
+    public class TimerService
     {
         private const int _countdown = 60;
-    
-        public TimerService(IMessagePublisher messages) 
+
+        public TimerService(IMessagePublisher messages)
         {
             Observable.Interval(TimeSpan.FromMilliseconds(1000))
                 .Subscribe(x =>
                 {
                     var timeleft = _countdown - (x % _countdown);
-                    
+
                     messages.Publish(new BroadcastMessage("time", new {
                         Interval = _countdown,
                         TimeLeft = timeleft
                     }));
 
                     // This should be removed at state where backend has all current code.
-                    if(timeleft == 0) {
+                    if (timeleft == 1) {
                         messages.Publish(new BroadcastMessage("compileNeeded", new {}));
                     }
                 });
