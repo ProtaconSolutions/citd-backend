@@ -10,20 +10,21 @@ public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton<IMessagePublisher, MessagePublisher>();
+        services.AddSingleton<IMessagePublisher>(new MessagePublisher());
 
         services.AddSingleton<CompilerService, CompilerService>();
         services.AddSingleton<TimerService, TimerService>();
         services.AddSingleton<MessagingOutAdapter, MessagingOutAdapter>();
 
-        services.AddSignalR();
+        services.AddSignalR(o => { 
+            o.Hubs.EnableDetailedErrors = true;
+        });
 
         services.BuildServiceProvider()
-            .WarmUp<TimerService>()
-            .WarmUp<MessagingOutAdapter>();
+            .WarmUp<TimerService>();
     }
 
-    public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHubContext<MessagingHub> hub)
+    public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
     {
         loggerFactory.AddConsole(LogLevel.Debug);
 

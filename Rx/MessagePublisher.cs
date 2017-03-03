@@ -7,7 +7,7 @@ namespace Rx
 {
     public class MessagePublisher : IMessagePublisher
     {
-        private readonly ConcurrentDictionary<Type, object> _subjects
+        private ConcurrentDictionary<Type, object> _subjects
             = new ConcurrentDictionary<Type, object>();
 
         public IObservable<TEvent> OfType<TEvent>()

@@ -1,11 +1,12 @@
 using System;
 using Microsoft.AspNetCore.SignalR;
+using Rx;
 
 namespace Hubs
 {
     public class MessagingOutAdapter
     {
-        public MessagingOutAdapter(Rx.IMessagePublisher messages, IHubContext<MessagingHub> hub)
+        public MessagingOutAdapter(IMessagePublisher messages, dynamic hub)
         {
             messages.OfType<ResponseMessage>()
                 .Subscribe(x =>

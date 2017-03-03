@@ -1,5 +1,4 @@
 using System;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Hubs;
 using Microsoft.AspNetCore.SignalR;
@@ -9,11 +8,16 @@ using Rx;
 [HubName("messaging")]
 public class MessagingHub : Hub
 {
-    private Rx.IMessagePublisher _messages;
+    private IMessagePublisher _messages;
+    private static MessagingOutAdapter _adapter; 
 
-    public MessagingHub(Rx.IMessagePublisher messages) 
+    public MessagingHub(IMessagePublisher messages) 
     {
         _messages = messages;
+        
+        // This is ugly workaround for injecting hub context to another class.
+        if(_adapter == null)
+            _adapter = new MessagingOutAdapter(_messages, this);
     }
 
     public async Task Subscribe(string channel)
