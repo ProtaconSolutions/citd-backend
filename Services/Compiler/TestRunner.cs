@@ -35,7 +35,14 @@ namespace Compiler
 
                 foreach (var test in fixture.Tests)
                 {
-                    var result = test.Run(assembly.GetType(fixture.TypeName).GetMethod(fixture.MethodName).Invoke);
+                    var method = assembly?.GetType(fixture.TypeName)?.GetMethod(fixture.MethodName);
+
+                    if(method == null) 
+                    {
+                        throw new InvalidOperationException("Cannot load test method, found 'null'");
+                    }
+
+                    var result = test.Run(method.Invoke);
 
                     if (result.Type == TestResultType.TestFailure)
                     {

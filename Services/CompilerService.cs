@@ -14,6 +14,9 @@ namespace Services
             messages.OfType<RequestMessage>()
                 .Where(x => x.Type == "compileRequest")
                 .Subscribe(x => {
+                    if(x?.Data?.Code == null)
+                        throw new InvalidOperationException("Code cannot be null.");
+
                     var result = TestRunner.Run(x.Data.Code, TestFixture);
 
                     messages.Publish(new ResponseMessage("compileResult", x.ConnectionId, result));

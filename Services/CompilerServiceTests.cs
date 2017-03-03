@@ -1,4 +1,6 @@
 using System;
+using Compiler;
+using FluentAssertions;
 using Hubs;
 using Rx;
 using Xunit;
@@ -17,15 +19,23 @@ namespace Services
         } 
 
         [Fact()]
-        public void IsThereChangeToSkipAnything() 
+        public void WithValidCode_ThenDontCrash()
         {
+            var code = @"
+            public class Foo {}
+            ";
+
+            TotalTestsResult result = new TotalTestsResult();
+
             _messager.OfType<ResponseMessage>()
                 .Subscribe(x => 
                 {
-                    
+                    result = (TotalTestsResult)x.Data;
                 });
-                    
-            _messager.Publish(new RequestMessage("compileRequest", "senderId", "invalid_code_here"));
+
+            _messager.Publish(new RequestMessage("compileRequest", "senderId", new { Code = code }));
+
+            result.Message.Should().Be("a");
         }
     }
 }
