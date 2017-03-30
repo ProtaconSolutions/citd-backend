@@ -3,6 +3,6 @@ node {
         checkout scm
 
     stage 'Build'
-        sh('docker build .')
+        sh('docker build . -f Dockerfile.jenkingsslave')
 
 }
