@@ -9,7 +9,5 @@ dotnet run
 
 ##Building Docker container
 ```
-dotnet restore
-dotnet publish -c release -r rhel.7-x64
 docker build .
 ```
