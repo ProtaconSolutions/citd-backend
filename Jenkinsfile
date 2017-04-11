@@ -1,5 +1,5 @@
 node {
-  docker.withRegistry(${env.PTCS_DOCKER_REGISTRY}, ${env.PTCS_DOCKER_REGISTRY_KEY}) {
+  docker.withRegistry("${env.PTCS_DOCKER_REGISTRY}", "${env.PTCS_DOCKER_REGISTRY_KEY}") {
     stage 'Checkout'
       checkout scm
 
@@ -17,7 +17,7 @@ node {
         """
       }
     stage 'Package'
-      def image = docker.build(${env.PTCS_DOCKER_REGISTRY} + '/citd-backend:dev', '.')
+      def image = docker.build("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev", '.')
       image.push()
   }
 }
