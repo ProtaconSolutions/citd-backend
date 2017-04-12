@@ -14,12 +14,12 @@ podTemplate(label: 'dotnet', containers: [
 	dotnet build -c Release -o out
 	"""
       }
-    stage 'Test'
+/*    stage 'Test'
       container('dotnet') {
-	sh """
-	dotnet test
-	"""
-      }
+        sh """
+        dotnet test
+        """
+      }*/
     stage 'Package'
       kubernetes.image().withName("${env.PTCS_DOCKER_REGISTRY} + /citd-backend").build().frompath(".")
       kubernetes.image().withName("${env.PTCS_DOCKER_REGISTRY} + /citd-backend").push().withTag("dev").toRegistry()
