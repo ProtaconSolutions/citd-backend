@@ -1,6 +1,6 @@
 podTemplate(label: 'dotnet', containers: [
     containerTemplate(name: 'jnlp', image: 'jenkinsci/jnlp-slave:alpine', ttyEnabled: true, args: '${computer.jnlpmac} ${computer.name}'),
-    containerTemplate(name: 'dotnet', image: 'microsoft/dotnet:1.1.1-sdk', ttyEnabled: true, command: '/bin/sh -c', args: 'cat')
+    containerTemplate(name: 'dotnet', image: 'microsoft/dotnet:1.1.1-sdk', ttyEnabled: true, command: '/bin/sh -c', args: 'cat'),
     containerTemplate(name: 'docker', image: '${env.PTCS_DOCKER_REGISTRY}/docker-client:latest', ttyEnabled: true, command: '/bin/sh -c', args: 'cat')
   ]) {
 
