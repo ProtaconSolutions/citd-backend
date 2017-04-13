@@ -9,7 +9,7 @@ podTemplate(label: 'dotnet',
   ]
 ) {
 
-  docker.withRegistry("${env.PTCS_DOCKER_REGISTRY}") {
+  docker.withRegistry("https://${env.PTCS_DOCKER_REGISTRY}") {
     node('dotnet') {
       stage('Checkout') {
 	checkout scm
