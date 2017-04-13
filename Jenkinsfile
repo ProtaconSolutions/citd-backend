@@ -9,7 +9,7 @@ podTemplate(label: 'dotnet',
   ]
 ) {
 
-  docker.withRegistry("https://${env.PTCS_DOCKER_REGISTRY}") {
+  docker.withRegistry("https://eu.gcr.io") {
     node('dotnet') {
       stage('Checkout') {
 	checkout scm
@@ -33,12 +33,12 @@ podTemplate(label: 'dotnet',
       stage('Package') {
         container('docker') {
           //Workaround Jenkins bug https://issues.jenkins-ci.org/browse/JENKINS-31507
-          //def image = docker.build("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev", '.')
+          //def image = docker.build("${env.PTCS_DOCKER_REGISTRY}/citd-backend", '.')
           sh """
-          docker build -t ${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev .
+          docker build -t ${env.PTCS_DOCKER_REGISTRY}/citd-backend .
           """
-          def image = docker.image("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev")
-          image.push()
+          def image = docker.image("${env.PTCS_DOCKER_REGISTRY}/citd-backend")
+          image.push('dev')
         }
       }
     }
