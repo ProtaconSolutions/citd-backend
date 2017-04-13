@@ -32,9 +32,12 @@ podTemplate(label: 'dotnet',
       }*/
       stage('Package') {
         container('docker') {
-          def image = docker.build("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev", '.')
           //Workaround Jenkins bug https://issues.jenkins-ci.org/browse/JENKINS-31507
-          image = docker.image("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev")
+          //def image = docker.build("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev", '.')
+          sh """
+          docker build -t ${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev .
+          """
+          def image = docker.image("${env.PTCS_DOCKER_REGISTRY}/citd-backend:dev")
           image.push()
         }
       }
